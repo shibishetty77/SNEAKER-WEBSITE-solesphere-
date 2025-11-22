@@ -1,0 +1,226 @@
+.how-it-works-section {
+  padding: 100px 0;
+  background: linear-gradient(135deg, 
+    var(--dark-bg) 0%, 
+    #0a0f1a 25%, 
+    #1a0f2e 50%, 
+    #0f1a2e 75%, 
+    var(--dark-bg) 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.how-it-works-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    radial-gradient(circle at 25% 25%, rgba(79, 70, 229, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 75% 75%, rgba(0, 201, 255, 0.1) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: 80px;
+  position: relative;
+  z-index: 2;
+}
+
+.section-title {
+  font-size: 48px;
+  font-weight: 900;
+  background: linear-gradient(135deg, #00CCFF 0%, #4F46E5 30%, #00C9FF 70%, #667EEA 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 20px;
+  letter-spacing: -1px;
+}
+
+.section-description {
+  font-size: 18px;
+  color: rgba(248, 250, 252, 0.8);
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+.steps-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 40px;
+  position: relative;
+  z-index: 2;
+}
+
+.step-card {
+  background: rgba(30, 41, 59, 0.4);
+  border: 1px solid rgba(79, 70, 229, 0.2);
+  border-radius: 20px;
+  padding: 40px 30px;
+  text-align: center;
+  position: relative;
+  backdrop-filter: blur(10px);
+  transition: all 0.4s ease;
+  overflow: hidden;
+}
+
+.step-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, rgba(79, 70, 229, 0.05) 0%, rgba(0, 201, 255, 0.05) 100%);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.step-card:hover::before {
+  opacity: 1;
+}
+
+.step-card:hover {
+  transform: translateY(-10px) scale(1.02);
+  border-color: rgba(79, 70, 229, 0.4);
+  box-shadow: 
+    0 25px 50px rgba(0, 0, 0, 0.3),
+    0 0 30px rgba(79, 70, 229, 0.2);
+}
+
+.step-number {
+  position: absolute;
+  top: -15px;
+  right: 20px;
+  width: 50px;
+  height: 50px;
+  background: linear-gradient(135deg, #00C9FF 0%, #667EEA 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  font-weight: 900;
+  color: #000000;
+  box-shadow: 0 8px 20px rgba(0, 201, 255, 0.3);
+}
+
+.step-icon {
+  width: 80px;
+  height: 80px;
+  background: linear-gradient(135deg, rgba(79, 70, 229, 0.2) 0%, rgba(0, 201, 255, 0.2) 100%);
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 30px;
+  color: #00C9FF;
+  transition: all 0.4s ease;
+  position: relative;
+  z-index: 2;
+}
+
+.step-card:hover .step-icon {
+  transform: scale(1.1) rotate(5deg);
+  background: linear-gradient(135deg, rgba(79, 70, 229, 0.3) 0%, rgba(0, 201, 255, 0.3) 100%);
+  box-shadow: 0 15px 30px rgba(0, 201, 255, 0.2);
+}
+
+.step-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 15px;
+  position: relative;
+  z-index: 2;
+}
+
+.step-description {
+  font-size: 16px;
+  color: rgba(248, 250, 252, 0.7);
+  line-height: 1.6;
+  position: relative;
+  z-index: 2;
+}
+
+.step-card:hover .step-description {
+  color: rgba(248, 250, 252, 0.9);
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .section-title {
+    font-size: 40px;
+  }
+  
+  .steps-grid {
+    gap: 30px;
+  }
+  
+  .step-card {
+    padding: 35px 25px;
+  }
+}
+
+@media (max-width: 768px) {
+  .how-it-works-section {
+    padding: 80px 0;
+  }
+  
+  .section-header {
+    margin-bottom: 60px;
+  }
+  
+  .section-title {
+    font-size: 32px;
+  }
+  
+  .section-description {
+    font-size: 16px;
+  }
+  
+  .steps-grid {
+    grid-template-columns: 1fr;
+    gap: 25px;
+  }
+  
+  .step-card {
+    padding: 30px 20px;
+  }
+  
+  .step-icon {
+    width: 70px;
+    height: 70px;
+    margin-bottom: 25px;
+  }
+  
+  .step-title {
+    font-size: 20px;
+  }
+  
+  .step-description {
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .section-title {
+    font-size: 28px;
+  }
+  
+  .step-number {
+    width: 45px;
+    height: 45px;
+    font-size: 16px;
+  }
+  
+  .step-icon {
+    width: 60px;
+    height: 60px;
+  }
+}

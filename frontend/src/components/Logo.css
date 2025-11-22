@@ -1,0 +1,36 @@
+.logo-container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.logo-container:hover {
+  transform: scale(1.05);
+}
+
+.logo-icon {
+  filter: drop-shadow(0 4px 8px rgba(102, 126, 234, 0.3));
+  transition: all 0.3s ease;
+}
+
+.logo-container:hover .logo-icon {
+  filter: drop-shadow(0 6px 12px rgba(102, 126, 234, 0.5));
+}
+
+.logo-text {
+  font-weight: 800;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: -0.5px;
+  font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+}
+
+@media (max-width: 768px) {
+  .logo-text {
+    display: none;
+  }
+}
