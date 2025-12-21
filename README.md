@@ -4,13 +4,6 @@ A modern, full-stack sneaker e-commerce website with **3D customization** capabi
 
 ## 🌟 Features
 
-### 🎨 3D Shoe Customization
-- Interactive 3D shoe model using **React Three Fiber**
-- Real-time color customization (upper, sole, laces, swoosh, accent)
-- Rotate, zoom, and view your design from all angles
-- Save and share custom designs
-- Add customized shoes to cart
-
 ### 🛍️ E-Commerce Features
 - Browse extensive sneaker catalog
 - Advanced filtering (category, brand, price, gender)
