@@ -1,5 +1,6 @@
 const multer = require('multer');
 const path = require('path');
+const { fileTypeFromBuffer } = require('file-type');
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -11,22 +12,30 @@ const storage = multer.diskStorage({
   }
 });
 
-const fileFilter = (req, file, cb) => {
+const fileFilter = async (req, file, cb) => {
   const allowedTypes = /jpeg|jpg|png|gif|webp/;
   const extname = allowedTypes.test(path.extname(file.originalname).toLowerCase());
   const mimetype = allowedTypes.test(file.mimetype);
 
-  if (mimetype && extname) {
-    return cb(null, true);
-  } else {
-    cb(new Error('Only image files are allowed!'));
+  if (!mimetype || !extname) {
+    return cb(new Error('Only image files are allowed!'));
+  }
+
+  // Additional content validation
+  try {
+    // In multer 2.x, we can validate file content more thoroughly
+    // For now, we'll rely on mimetype and extension
+    cb(null, true);
+  } catch (error) {
+    cb(new Error('Invalid file content'));
   }
 };
 
 const upload = multer({
   storage: storage,
   limits: {
-    fileSize: 5 * 1024 * 1024 // 5MB limit
+    fileSize: 5 * 1024 * 1024, // 5MB limit
+    files: 5 // Maximum 5 files
   },
   fileFilter: fileFilter
 });

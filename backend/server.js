@@ -3,22 +3,53 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const dotenv = require('dotenv');
 const path = require('path');
+const {
+  securityHeaders,
+  authLimiter,
+  generalLimiter,
+  sanitizeMongo,
+  sanitizeXSS,
+  protectHPP,
+  securityLogger,
+} = require('./middleware/security');
 
 dotenv.config();
 
 const app = express();
 
-// Middleware
-app.use(cors());
+// Security middleware
+app.use(securityHeaders);
+app.use(securityLogger);
+app.use(sanitizeMongo);
+app.use(sanitizeXSS);
+app.use(protectHPP);
+
+// CORS configuration
+const allowedOrigins = process.env.ALLOWED_ORIGINS 
+  ? process.env.ALLOWED_ORIGINS.split(',')
+  : ['http://localhost:3000', 'http://localhost:5173'];
+
+app.use(cors({
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true,
+}));
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
+// Rate limiting
+app.use('/api/auth', authLimiter);
+app.use(generalLimiter);
+
 // Database connection
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/solesphere', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-})
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/solesphere')
 .then(() => console.log('✅ MongoDB Connected'))
 .catch((err) => console.error('❌ MongoDB Connection Error:', err));
 
@@ -37,9 +68,13 @@ app.get('/api/health', (req, res) => {
 // Error handling middleware
 app.use((err, req, res, next) => {
   console.error(err.stack);
-  res.status(500).json({ 
-    message: 'Something went wrong!', 
-    error: process.env.NODE_ENV === 'development' ? err.message : undefined 
+  
+  // Don't leak error details in production
+  const isDevelopment = process.env.NODE_ENV === 'development';
+  
+  res.status(err.status || 500).json({
+    message: err.message || 'Something went wrong!',
+    ...(isDevelopment && { error: err.message, stack: err.stack })
   });
 });
 

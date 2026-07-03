@@ -66,4 +66,9 @@ const resellSchema = new mongoose.Schema({
   timestamps: true
 });
 
+// Index for efficient queries
+resellSchema.index({ seller: 1, createdAt: -1 });
+resellSchema.index({ status: 1, createdAt: -1 });
+resellSchema.index({ condition: 1, price: 1 });
+
 module.exports = mongoose.model('Resell', resellSchema);

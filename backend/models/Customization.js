@@ -51,4 +51,8 @@ const customizationSchema = new mongoose.Schema({
   timestamps: true
 });
 
+// Index for efficient queries
+customizationSchema.index({ user: 1, createdAt: -1 });
+customizationSchema.index({ isPublic: 1, createdAt: -1 });
+
 module.exports = mongoose.model('Customization', customizationSchema);

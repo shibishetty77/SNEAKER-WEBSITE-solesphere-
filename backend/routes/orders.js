@@ -5,7 +5,7 @@ const { authMiddleware, adminMiddleware } = require('../middleware/auth');
 
 // Generate order number
 const generateOrderNumber = () => {
-  return 'ORD-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9).toUpperCase();
+  return 'ORD-' + Date.now() + '-' + Math.random().toString(36).substring(2, 11).toUpperCase();
 };
 
 // @route   POST /api/orders

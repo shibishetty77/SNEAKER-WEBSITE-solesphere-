@@ -7,8 +7,21 @@ const { authMiddleware } = require('../middleware/auth');
 
 // Generate JWT Token
 const generateToken = (userId) => {
-  return jwt.sign({ userId }, process.env.JWT_SECRET || 'your_jwt_secret', {
-    expiresIn: '30d'
+  if (!process.env.JWT_SECRET) {
+    throw new Error('JWT_SECRET is not configured in environment variables');
+  }
+  return jwt.sign({ userId }, process.env.JWT_SECRET, {
+    expiresIn: '1h'
+  });
+};
+
+// Generate Refresh Token
+const generateRefreshToken = (userId) => {
+  if (!process.env.JWT_REFRESH_SECRET) {
+    throw new Error('JWT_REFRESH_SECRET is not configured in environment variables');
+  }
+  return jwt.sign({ userId }, process.env.JWT_REFRESH_SECRET, {
+    expiresIn: '7d'
   });
 };
 
@@ -39,9 +52,11 @@ router.post('/register', [
     await user.save();
 
     const token = generateToken(user._id);
+    const refreshToken = generateRefreshToken(user._id);
 
     res.status(201).json({
       token,
+      refreshToken,
       user: {
         id: user._id,
         name: user.name,
@@ -83,9 +98,11 @@ router.post('/login', [
     }
 
     const token = generateToken(user._id);
+    const refreshToken = generateRefreshToken(user._id);
 
     res.json({
       token,
+      refreshToken,
       user: {
         id: user._id,
         name: user.name,
